@@ -1,12 +1,14 @@
+import random
+
 class Jacobi:
     def __init__(self):
         pass
 
     def getSize(self):
-        n = int(input("\n¿Cuántas ecuaciones tiene el problema? (3/4/5): "))
-        while n != 3 and n != 4 and n != 5:
-            n = int(input("\n¡ERROR! Deben ser 3, 4 o 5 ecuaciones. ¿Cuántas ecuaciones tiene el problema? (3/4/5): "))
-        return n
+        n = input("\n¿Cuántas ecuaciones tiene el problema? (3/4/5): ")
+        while n != "3" and n != "4" and n != "5":
+            n = input("\n¡ERROR! Deben ser 3, 4 o 5 ecuaciones. ¿Cuántas ecuaciones tiene el problema? (3/4/5): ")
+        return int(n)
 
     def evaluateFormat(self, equations, n):
         if not equations.endswith(";"):
@@ -52,3 +54,35 @@ class Jacobi:
     def printMatrix(self, matrix):
         for row in matrix:
             print(" ".join(map(str, row)))
+    
+    def randomNum(self):
+        return random.randint(0, 9)
+    
+    def createRandomMatrix(self, n):
+        matrix = []
+        for i in range(n):
+            row = [self.randomNum() for i in range(n)]
+            matrix.append(row)
+        return matrix
+
+    def isEDD(self, matrix):
+        n = len(matrix)
+        for i in range(n):
+            diagonal = abs(matrix[i][i])
+            sumOutsideDiagonal = sum(abs(matrix[i][j]) for j in range(n) if j != i)
+            if diagonal <= sumOutsideDiagonal:
+                return False
+        return True
+
+    def changeRowsToEDD(self, matrix):
+        if self.isEDD(matrix):
+            return matrix
+        n = len(matrix)
+        for i in range(n):
+            for j in range(i+1, n):
+                newMatrix = matrix[:]
+                newMatrix[i], newMatrix[j] = newMatrix[j], newMatrix[i]
+                if self.isEDD(newMatrix):
+                    return newMatrix
+        print("No se pudo convertir la matriz en una EDD.")
+        return matrix
