@@ -86,3 +86,44 @@ class Jacobi:
                     return newMatrix
         print("No se pudo convertir la matriz en una EDD.")
         return matrix
+    
+    def getB(self, n):
+        equation = []
+        nums = input(f"Ingrese los terminos independientes en el orden: ")
+        while not self.evaluateFormat(nums, n):
+            nums = input(f"ERROR, recuerde ingresar los numeros seguidos de un espacio y terminar con un punto y coma (;)\nIngrese los terminos independientes en el orden {example}: ")
+        equation.append(nums)
+        print
+        print(equation)
+        equation = self.createMatrix(equation)
+        print(equation)
+        return equation[0]
+    
+    def getX0(self, n):
+        x0 = []
+        while len(x0) != n:
+            x0.append(0)
+        return x0
+    
+    def makejacobi(self, A, b, x0, max_iterations=100, tolerance=1e-6):
+        n = len(A)
+        x = list(x0)
+    
+        for iteration in range(max_iterations):
+            x_prev = x[:]
+        
+            for i in range(n):
+                sigma = 0.0
+            
+                for j in range(n):
+                    if j != i:
+                        sigma += A[i][j] * x_prev[j]
+            
+                x[i] = (b[i] - sigma) / A[i][i]
+        
+            diff_norm = sum((x[i] - x_prev[i]) ** 2 for i in range(n)) ** 0.5
+        
+            if diff_norm < tolerance:
+                break
+    
+        return x

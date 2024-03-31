@@ -1,4 +1,4 @@
-from Jacobi import Jacobi
+from jacobi import Jacobi
 
 class Main:
     def main():
@@ -13,11 +13,16 @@ class Main:
                 jacobi.printMatrix(matrix)
                 matrix = jacobi.changeRowsToEDD(matrix)
                 jacobi.printMatrix(matrix)
+
+                result = jacobi.makejacobi(matrix,jacobi.getB(len(matrix)),jacobi.getX0(len(matrix)),max_iterations=100, tolerance=1e-6)
             elif option == "2":
                 matrix = jacobi.createMatrix(jacobi.getData(jacobi.getSize()))
                 jacobi.printMatrix(matrix)
                 matrix = jacobi.changeRowsToEDD(matrix)
                 jacobi.printMatrix(matrix)
+
+                result = jacobi.makejacobi(matrix,jacobi.getB(len(matrix)),jacobi.getX0(len(matrix)),max_iterations=100, tolerance=1e-6)
+                print(result)
             elif option == "3":
                 break
 Main.main()
