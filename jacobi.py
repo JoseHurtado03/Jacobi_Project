@@ -1,5 +1,5 @@
-import random
-
+import random #Se usa para generar el número aleatorio
+import re     #Se usa para validar el string equations
 class Jacobi:
     def __init__(self):
         pass
@@ -16,8 +16,9 @@ class Jacobi:
         numeros = equations.rstrip(";").split()
         if len(numeros) != n:
             return False
-        if not all(caracter.isdigit() for caracter in numeros):
-            return False
+        for numero in numeros:
+            if not re.match(r'^-?\d+$', numero):
+                return False
         return True
 
     def createExample(self, n):
@@ -91,7 +92,7 @@ class Jacobi:
         equation = []
         nums = input(f"Ingrese los terminos independientes en el orden: ")
         while not self.evaluateFormat(nums, n):
-            nums = input(f"ERROR, recuerde ingresar los numeros seguidos de un espacio y terminar con un punto y coma (;)\nIngrese los terminos independientes en el orden {example}: ")
+            nums = input(f"ERROR, recuerde ingresar los numeros seguidos de un espacio y terminar con un punto y coma (;)\nIngrese los terminos independientes en el orden: ")
         equation.append(nums)
         print
         print(equation)
