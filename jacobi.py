@@ -64,6 +64,7 @@ class Jacobi:
         for i in range(n):
             row = [self.randomNum() for i in range(n)]
             matrix.append(row)
+        #print(matrix)
         return matrix
 
     def isEDD(self, matrix):
@@ -85,8 +86,8 @@ class Jacobi:
                 newMatrix[i], newMatrix[j] = newMatrix[j], newMatrix[i]
                 if self.isEDD(newMatrix):
                     return newMatrix
-        print("No se pudo convertir la matriz en una EDD.")
-        return matrix
+        #print("\nNo se pudo convertir la matriz en una EDD.")
+        return False
     
     def getB(self, n):
         equation = []
@@ -94,10 +95,7 @@ class Jacobi:
         while not self.evaluateFormat(nums, n):
             nums = input(f"ERROR, recuerde ingresar los numeros seguidos de un espacio y terminar con un punto y coma (;)\nIngrese los terminos independientes en el orden: ")
         equation.append(nums)
-        print
-        print(equation)
         equation = self.createMatrix(equation)
-        print(equation)
         return equation[0]
     
     def getX0(self, n):
@@ -123,7 +121,13 @@ class Jacobi:
                 x[i] = (b[i] - sigma) / A[i][i]
         
             diff_norm = sum((x[i] - x_prev[i]) ** 2 for i in range(n)) ** 0.5
-        
+
+            print(f"Iteracion {iteration + 1}:")
+            print(f"x{iteration + 1} = ----------->", x)
+            print(f"x{iteration} previa usada= ", x_prev)
+            print("Tolerancia Actual =", diff_norm)
+            print("----------------------------------------------------------------------------------")
+
             if diff_norm < tolerance:
                 break
     
