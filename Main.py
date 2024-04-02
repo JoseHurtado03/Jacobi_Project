@@ -15,6 +15,8 @@ class Main:
                 result = jacobi.makejacobi(matrix,jacobi.getB(len(matrix)),jacobi.getX0(len(matrix)),max_iterations=100, tolerance=1e-6)
                 jacobi.printMatrixA(matrix)
                 jacobi.printMatrixB(matrixB)
+                jacobi.printMatrixD(matrix)
+                jacobi.printMatrixR(matrix)
                 print(result)
 
             elif option == "2":
@@ -25,6 +27,8 @@ class Main:
                 result = jacobi.makejacobi(matrix,matrixB,jacobi.getX0(len(matrix)),max_iterations=100, tolerance=1e-6)
                 jacobi.printMatrixA(matrix)
                 jacobi.printMatrixB(matrixB)
+                jacobi.printMatrixD(matrix)
+                jacobi.printMatrixR(matrix)
                 print(result)
 
             elif option == "3":

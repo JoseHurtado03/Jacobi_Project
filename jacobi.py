@@ -57,7 +57,7 @@ class Jacobi:
             print(" ".join(map(str, row)))
     
     def randomNum(self):
-        return random.randint(0, 9)
+        return random.randint(-9, 9)
     
     def createRandomMatrix(self, n):
         matrix = []
@@ -137,3 +137,35 @@ class Jacobi:
         print("\nb =     ")
         for value in matrixB:
             print("[   "+ str(value) +  "   ]")
+    
+    def createMatrixD(self, matrix):
+        n_rows = len(matrix)
+        n_columns = len(matrix[0]) if matrix else 0
+        min_dimension = min(n_rows, n_columns)
+        matrixD = []
+        for i in range(min_dimension):
+            fila_diagonal = [0] * i + [matrix[i][i]] + [0] * (min_dimension - i - 1)
+            matrixD.append(fila_diagonal)
+        return matrixD
+    
+    def printMatrixD(self, matrix):
+        matrixD = self.createMatrixD(matrix)
+        print("\nD =     ")
+        self.printMatrix(matrixD)
+
+    def createMatrixR(self, matrix):
+        matrixR = []
+        for i in range(len(matrix)):
+            fila = []
+            for j in range(len(matrix[i])):
+                if i == j:
+                    fila.append(0)  # Reemplazar diagonal con cero
+                else:
+                    fila.append(matrix[i][j])  # Mantener el mismo elemento
+            matrixR.append(fila)
+        return matrixR
+    
+    def printMatrixR(self, matrix):
+        matrixR = self.createMatrixR(matrix)
+        print("\nR =     ")
+        self.printMatrix(matrixR)
