@@ -60,12 +60,21 @@ class Jacobi:
         return random.randint(-9, 9)
     
     def createRandomMatrix(self, n):
-        matrix = []
-        for i in range(n):
-            row = [self.randomNum() for i in range(n)]
-            matrix.append(row)
-        #print(matrix)
-        return matrix
+        if n == 5:
+            A = [[random.randint(-9, 9) for _ in range(n)] for _ in range(n)]  # Genera una matriz aleatoria de tamaño nxn
+
+            for i in range(n):
+                sum_abs = sum(abs(A[i][j]) for j in range(n) if j != i)  # Suma los valores absolutos de los elementos de la fila excepto el diagonal
+                A[i][i] = sum_abs + random.randint(1, 10)  # Asigna un valor en la diagonal que garantiza la propiedad de ser estrictamente diagonalmente dominante
+
+            return A
+        else:
+            matrix = []
+            for i in range(n):
+                row = [self.randomNum() for i in range(n)]
+                matrix.append(row)
+            #print(matrix)
+            return matrix
 
     def isEDD(self, matrix):
         n = len(matrix)
