@@ -5,10 +5,6 @@ class Main:
         jacobi = Jacobi()
         while True:
             option = input("\n*****MÉTODO JACOBI*****\n\n¿Cómo deseas crear la matriz?\n1- Crear matriz con números al azar\n2- Crear matriz ingresando los coeficientes\n3- Salir \n-->")
-            
-            # while option != "1" and option != "2" and option != "3":
-            #     option = input("¡ERROR! ¿Cómo deseas crear la matriz? (1/2)\n1- Crear matriz con números al azar\n2- Crear matriz ingresando los coeficientes\n3- Salir \n-->")
-            
             if option == "1":
                 size = jacobi.getSize()
                 matrix = jacobi.createRandomMatrix(size)
@@ -44,10 +40,10 @@ class Main:
                     input("\nPRESIONE ENTER PARA CONTINUAR Y VOLVER AL MENU")
                 else:
                     print("\nNo se pudo convertir la matriz en una EDD.")
-                    input("PRESIONE ENTER PARA VOLVER AL MENU")
+                    input("PRESIONE ENTER PARA VOLVER AL MENÚ")
 
             elif option == "3":
                 break
             else:
-                print("\n¡ERROR! Marque el numero correspondiente a las opciones disponibles!")
+                print("\n¡ERROR! Marque el número correspondiente a las opciones disponibles")
 Main.main()

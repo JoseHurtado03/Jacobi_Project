@@ -4,12 +4,14 @@ class Jacobi:
     def __init__(self):
         pass
 
+    #Solicita el tamaño de la matriz al usuario
     def getSize(self):
         n = input("\n¿Cuántas ecuaciones tiene el problema? (3/4/5): ")
         while n != "3" and n != "4" and n != "5":
             n = input("\n¡ERROR! Deben ser 3, 4 o 5 ecuaciones. ¿Cuántas ecuaciones tiene el problema? (3/4/5): ")
         return int(n)
 
+    #Evalúa el formato ingresado de los valores de la matriz 
     def evaluateFormat(self, equations, n):
         if not equations.endswith(";"):
             return False
@@ -21,15 +23,17 @@ class Jacobi:
                 return False
         return True
 
+    #Imprime un ejemplo de ingreso de valores
     def createExample(self, n):
         if n == 3:
-            example = "Ax + By + C = 0;"
+            example = "AX1 + BX2 + CX3 = 0;"
         elif n == 4:
-            example = "Ax + By + Cz + D = 0;"
+            example = "AX1 + BX2 + CX3 + DX4 = 0;"
         elif n == 5:
-            example = "Ax + By + Cz + Ds + E = 0;"
+            example = "AX1 + BX2 + CX3 + DX4 + EX5 = 0;"
         return example
 
+    #Solicita los valores para armar la matriz
     def getData(self, n):
         aux = n
         equations = []
@@ -44,6 +48,7 @@ class Jacobi:
             aux -= 1
         return equations
 
+    #A partir de el string generado en getData() se crea la matriz A
     def createMatrix(self, equations):
         matrix = []
         for equation in equations:
@@ -52,13 +57,16 @@ class Jacobi:
             matrix.append(row)
         return matrix
 
+    #Imprime la matriz que recibe por parámetro
     def printMatrix(self, matrix):
         for row in matrix:
             print(" ".join(map(str, row)))
     
+    #Genera números aleatorios
     def randomNum(self):
         return random.randint(-9, 9)
     
+    #Crea una matriz con números aleatorios
     def createRandomMatrix(self, n):
         if n == 5:
             A = [[random.randint(-9, 9) for _ in range(n)] for _ in range(n)]  # Genera una matriz aleatoria de tamaño nxn
@@ -73,9 +81,9 @@ class Jacobi:
             for i in range(n):
                 row = [self.randomNum() for i in range(n)]
                 matrix.append(row)
-            #print(matrix)
             return matrix
 
+    #Retorna True si la matriz es EDD
     def isEDD(self, matrix):
         n = len(matrix)
         for i in range(n):
@@ -85,6 +93,7 @@ class Jacobi:
                 return False
         return True
 
+    #Si la matriz no es EDD, intercambia filas hasta que lo sea
     def changeRowsToEDD(self, matrix):
         if self.isEDD(matrix):
             return matrix
@@ -98,6 +107,7 @@ class Jacobi:
         #print("\nNo se pudo convertir la matriz en una EDD.")
         return False
     
+    #Solicita al usuario los valores para la matriz b (términos independientes)
     def getB(self, n):
         equation = []
         nums = input(f"Ingrese los terminos independientes en el orden: ")
@@ -113,6 +123,7 @@ class Jacobi:
             x0.append(0)
         return x0
     
+    #Realiza la sucesión de Jacobi
     def makejacobi(self, A, b, x0, max_iterations=100, tolerance=1e-6):
         n = len(A)
         x = list(x0)
@@ -129,7 +140,7 @@ class Jacobi:
             
                 x[i] = (b[i] - sigma) / A[i][i]
         
-            diff_norm = sum((x[i] - x_prev[i]) ** 2 for i in range(n)) ** 0.5
+            diff_norm = sum((x[i] - x_prev[i]) ** 2 for i in range(n)) ** 0.5 #Cálculo de la tolerancia
 
             print(f"Iteracion {iteration + 1}:")
             print(f"x{iteration + 1} = ----------->", x)
@@ -142,15 +153,18 @@ class Jacobi:
     
         return x
     
+    #Imrpime la matriz A
     def printMatrixA(self, matrix):
         print("\nA =     ")
         self.printMatrix(matrix)
 
+    #Imrpime la matriz B
     def printMatrixB(self, matrixB):
         print("\nb =     ")
         for value in matrixB:
             print("[   "+ str(value) +  "   ]")
     
+    #Crea la matriz D
     def createMatrixD(self, matrix):
         n_rows = len(matrix)
         n_columns = len(matrix[0]) if matrix else 0
@@ -161,11 +175,13 @@ class Jacobi:
             matrixD.append(fila_diagonal)
         return matrixD
     
+    #Imrpime la matriz D
     def printMatrixD(self, matrix):
         matrixD = self.createMatrixD(matrix)
         print("\nD =     ")
         self.printMatrix(matrixD)
 
+    #Crea la matriz R
     def createMatrixR(self, matrix):
         matrixR = []
         for i in range(len(matrix)):
@@ -178,6 +194,7 @@ class Jacobi:
             matrixR.append(fila)
         return matrixR
     
+    #Imrpime la matriz R
     def printMatrixR(self, matrix):
         matrixR = self.createMatrixR(matrix)
         print("\nR =     ")
