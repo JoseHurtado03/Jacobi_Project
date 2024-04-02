@@ -128,3 +128,12 @@ class Jacobi:
                 break
     
         return x
+    
+    def printMatrixA(self, matrix):
+        print("\nA =     ")
+        self.printMatrix(matrix)
+
+    def printMatrixB(self, matrixB):
+        print("\nb =     ")
+        for value in matrixB:
+            print("[   "+ str(value) +  "   ]")
