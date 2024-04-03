@@ -3,47 +3,49 @@ from jacobi import Jacobi
 class Main:
     def main():
         jacobi = Jacobi()
+        matrix = None
         while True:
-            option = input("\n*****MÉTODO JACOBI*****\n\n¿Cómo deseas crear la matriz?\n1- Crear matriz con números al azar\n2- Crear matriz ingresando los coeficientes\n3- Salir \n-->")
+            option = input("\n*****SUCESIÓN JACOBI*****\n\n1- Crear matriz\n2- Crear matriz aleatoria\n3- Resolver sistema por Jacobi\n4- Ver traspuesta e inversa de la matriz\n5- Descomposición LU\n6- Salir\n--> ")
+            
             if option == "1":
-                size = jacobi.getSize()
-                matrix = jacobi.createRandomMatrix(size)
-                matrix = jacobi.changeRowsToEDD(matrix)
-                while matrix == False:
-                    matrix = jacobi.createRandomMatrix(size)
-                    matrix = jacobi.changeRowsToEDD(matrix)
-                jacobi.printMatrix(matrix)
-                matrixB = jacobi.getB(len(matrix))
-                result = jacobi.makejacobi(matrix,matrixB,jacobi.getX0(len(matrix)),max_iterations=100, tolerance=1e-6)
-                input("PRESIONE ENTER PARA VER LOS RESULTADOS FINALES")
+                matrix = jacobi.createMatrix(jacobi.getData(jacobi.getSize()))
                 jacobi.printMatrixA(matrix)
-                jacobi.printMatrixB(matrixB)
-                jacobi.printMatrixD(matrix)
-                jacobi.printMatrixR(matrix)
-                print("Solución:", result)
-                input("\nPRESIONE ENTER PARA CONTINUAR Y VOLVER AL MENU")
 
             elif option == "2":
-                matrix = jacobi.createMatrix(jacobi.getData(jacobi.getSize()))
-                matrix = jacobi.changeRowsToEDD(matrix)
-                if matrix != False:
-                    jacobi.printMatrix(matrix)
-
-                    matrixB = jacobi.getB(len(matrix))
-                    result = jacobi.makejacobi(matrix,matrixB,jacobi.getX0(len(matrix)),max_iterations=100, tolerance=1e-6)
-                    input("PRESIONE ENTER PARA VER LOS RESULTADOS FINALES")
-                    jacobi.printMatrixA(matrix)
-                    jacobi.printMatrixB(matrixB)
-                    jacobi.printMatrixD(matrix)
-                    jacobi.printMatrixR(matrix)
-                    print("Solución:", result)
-                    input("\nPRESIONE ENTER PARA CONTINUAR Y VOLVER AL MENU")
-                else:
-                    print("\nNo se pudo convertir la matriz en una EDD.")
-                    input("PRESIONE ENTER PARA VOLVER AL MENÚ")
+                matrix = jacobi.createRandomMatrix(jacobi.getSize())
+                jacobi.printMatrixA(matrix)
 
             elif option == "3":
+                if jacobi.isCreatedMatrix(matrix):
+                    matrixJ = jacobi.changeRowsToEDD(matrix)
+                    if jacobi.isEDD(matrixJ):
+                        print("\n*****Matriz EDD*****")
+                        jacobi.printMatrix(matrixJ)
+                        matrixB = jacobi.getB(len(matrix))
+                        result = jacobi.makejacobi(matrixJ,matrixB,jacobi.getX0(len(matrixJ)),max_iterations=100, tolerance=1e-6)
+                        input("ENTER para ver los resultados finales")
+                        jacobi.printMatrixA(matrixJ)
+                        jacobi.printMatrixB(matrixB)
+                        jacobi.printMatrixD(matrixJ)
+                        jacobi.printMatrixR(matrixJ)
+                        print("Solución:", result)
+                        input("PRESIONE ENTER PARA VOLVER AL MENÚ")
+
+            elif option == "4":
+                if jacobi.isCreatedMatrix(matrix):
+                    print("\n*****MATRIZ TRASPUESTA*****")
+                    traspose = jacobi.matrixTranspose(matrix)
+                    jacobi.printMatrix(traspose)
+                    print("\n*****MATRIZ INVERSA*****")
+                    inverse = jacobi.matrixInverse(matrix)
+                    jacobi.printMatrix(inverse)
+                    input("\nPRESIONE ENTER PARA CONTINUAR Y VOLVER AL MENÚ")
+
+            elif option == "5":
+                pass
+            
+            elif option == "6":
                 break
             else:
-                print("\n¡ERROR! Marque el número correspondiente a las opciones disponibles")
+                print("\n¡ERROR! Marque el número correspondiente a la opción que desea realizar.")
 Main.main()

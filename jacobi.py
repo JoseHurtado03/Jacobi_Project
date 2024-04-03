@@ -1,5 +1,6 @@
 import random #Se usa para generar el número aleatorio
 import re     #Se usa para validar el string equations
+import numpy as np
 class Jacobi:
     def __init__(self):
         pass
@@ -26,7 +27,7 @@ class Jacobi:
     #Imprime un ejemplo de ingreso de valores
     def createExample(self, n):
         if n == 3:
-            example = "AX1 + BX2 + CX3 = 0;"
+            example = "AX1 + BX2 + Cx3 = 0;"
         elif n == 4:
             example = "AX1 + BX2 + CX3 + DX4 = 0;"
         elif n == 5:
@@ -68,20 +69,12 @@ class Jacobi:
     
     #Crea una matriz con números aleatorios
     def createRandomMatrix(self, n):
-        if n == 5:
-            A = [[random.randint(-9, 9) for _ in range(n)] for _ in range(n)]  # Genera una matriz aleatoria de tamaño nxn
-
-            for i in range(n):
-                sum_abs = sum(abs(A[i][j]) for j in range(n) if j != i)  # Suma los valores absolutos de los elementos de la fila excepto el diagonal
-                A[i][i] = sum_abs + random.randint(1, 10)  # Asigna un valor en la diagonal que garantiza la propiedad de ser estrictamente diagonalmente dominante
-
-            return A
-        else:
-            matrix = []
-            for i in range(n):
-                row = [self.randomNum() for i in range(n)]
-                matrix.append(row)
-            return matrix
+        matrix = []
+        for i in range(n):
+            row = [self.randomNum() for i in range(n)]
+            matrix.append(row)
+        #print(matrix)
+        return matrix
 
     #Retorna True si la matriz es EDD
     def isEDD(self, matrix):
@@ -104,8 +97,8 @@ class Jacobi:
                 newMatrix[i], newMatrix[j] = newMatrix[j], newMatrix[i]
                 if self.isEDD(newMatrix):
                     return newMatrix
-        #print("\nNo se pudo convertir la matriz en una EDD.")
-        return False
+        print("\nNo se pudo convertir la matriz en una EDD.")
+        return matrix
     
     #Solicita al usuario los valores para la matriz b (términos independientes)
     def getB(self, n):
@@ -140,7 +133,7 @@ class Jacobi:
             
                 x[i] = (b[i] - sigma) / A[i][i]
         
-            diff_norm = sum((x[i] - x_prev[i]) ** 2 for i in range(n)) ** 0.5 #Cálculo de la tolerancia
+            diff_norm = sum((x[i] - x_prev[i]) ** 2 for i in range(n)) ** 0.5
 
             print(f"Iteracion {iteration + 1}:")
             print(f"x{iteration + 1} = ----------->", x)
@@ -155,12 +148,12 @@ class Jacobi:
     
     #Imrpime la matriz A
     def printMatrixA(self, matrix):
-        print("\nA =     ")
+        print("\n*****MATRIZ A*****")
         self.printMatrix(matrix)
 
     #Imrpime la matriz B
     def printMatrixB(self, matrixB):
-        print("\nb =     ")
+        print("\n*****MATRIZ b*****")
         for value in matrixB:
             print("[   "+ str(value) +  "   ]")
     
@@ -178,7 +171,7 @@ class Jacobi:
     #Imrpime la matriz D
     def printMatrixD(self, matrix):
         matrixD = self.createMatrixD(matrix)
-        print("\nD =     ")
+        print("\n*****MATRIZ D*****")
         self.printMatrix(matrixD)
 
     #Crea la matriz R
@@ -197,5 +190,25 @@ class Jacobi:
     #Imrpime la matriz R
     def printMatrixR(self, matrix):
         matrixR = self.createMatrixR(matrix)
-        print("\nR =     ")
+        print("\n*****MATRIZ R*****")
         self.printMatrix(matrixR)
+
+
+    def matrixInverse(self, matrix):
+        try:
+            inversa = np.linalg.inv(matrix)
+            return inversa
+        except np.linalg.LinAlgError:
+            print("La matriz no es invertible.")
+            return None 
+
+    def matrixTranspose(self, matrix):
+        n = len(matrix)
+        transpose = [[matrix[j][i] for j in range(n)] for i in range(n)]
+        return transpose 
+
+    def isCreatedMatrix(self, matrix):
+        if matrix == None:
+            print("Por favor, cree una matriz con la opción 1 o 2 antes de intentar esto.")
+            return False
+        return True
