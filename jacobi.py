@@ -60,8 +60,9 @@ class Jacobi:
 
     #Imprime la matriz que recibe por parámetro
     def printMatrix(self, matrix):
-        for row in matrix:
-            print(" ".join(map(str, row)))
+        if matrix is not None:
+            for row in matrix:
+                print(" ".join(map(str, row)))
     
     #Genera números aleatorios
     def randomNum(self):
@@ -212,3 +213,37 @@ class Jacobi:
             print("Por favor, cree una matriz con la opción 1 o 2 antes de intentar esto.")
             return False
         return True
+    
+    #Verifica si la matriz puede ser LU y retorna True si lo es.
+    def canBeLU(self, matrix, n):
+        matrixN = np.array(matrix)
+        num_iteraciones = min(n, n)
+        for i in range(num_iteraciones):
+            submatriz = matrixN[:i+1, :i+1]
+            determinante = np.linalg.det(submatriz)
+            if abs(determinante) < 1e-10:  # Consideramos como cero si es menor que una tolerancia pequeña
+                return False
+        return True
+    
+    def convertLU(self, matrix, n):
+        matrixN = np.array(matrix)
+        if not self.canBeLU(matrixN, n):
+            return None, None
+
+        matrixL = np.zeros((n, n))
+        matrixU = np.zeros((n, n))
+
+        # Llena la diagonal de L con unos
+        for i in range(n):
+            matrixL[i, i] = 1
+
+        # Calcula U y L
+        for i in range(n):
+            for j in range(i, n):
+                suma = sum(matrixL[i, k] * matrixU[k, j] for k in range(i))
+                matrixU[i, j] = matrixN[i, j] - suma
+            for j in range(i, n):
+                suma = sum(matrixL[j, k] * matrixU[k, i] for k in range(i))
+                matrixL[j, i] = (matrixN[j, i] - suma) / matrixU[i, i]
+
+        return matrixL, matrixU

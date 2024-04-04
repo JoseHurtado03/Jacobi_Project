@@ -4,15 +4,18 @@ class Main:
     def main():
         jacobi = Jacobi()
         matrix = None
+        n = 0
         while True:
             option = input("\n*****SUCESIÓN JACOBI*****\n\n1- Crear matriz\n2- Crear matriz aleatoria\n3- Resolver sistema por Jacobi\n4- Ver traspuesta e inversa de la matriz\n5- Descomposición LU\n6- Salir\n--> ")
             
             if option == "1":
-                matrix = jacobi.createMatrix(jacobi.getData(jacobi.getSize()))
+                n= jacobi.getSize()
+                matrix = jacobi.createMatrix(jacobi.getData(n))
                 jacobi.printMatrixA(matrix)
 
             elif option == "2":
-                matrix = jacobi.createRandomMatrix(jacobi.getSize())
+                n = jacobi.getSize()
+                matrix = jacobi.createRandomMatrix(n)
                 jacobi.printMatrixA(matrix)
 
             elif option == "3":
@@ -42,7 +45,15 @@ class Main:
                     input("\nPRESIONE ENTER PARA CONTINUAR Y VOLVER AL MENÚ")
 
             elif option == "5":
-                pass
+                if jacobi.isCreatedMatrix(matrix):
+                    matrixL, matrixU = jacobi.convertLU(matrix, n)
+                    if matrixL is None or matrixU is None or not matrixL.any() or not matrixU.any():
+                        print("La matriz no puede ser convertida a LU")
+                    else:
+                        print("\n*****MATRIZ L*****")
+                        jacobi.printMatrix(matrixL)
+                        print("\n*****MATRIZ U*****")
+                        jacobi.printMatrix(matrixU)
             
             elif option == "6":
                 break
